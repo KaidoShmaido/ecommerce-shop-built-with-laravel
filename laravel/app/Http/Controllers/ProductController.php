@@ -14,7 +14,7 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $products =Product::query()->paginate();
+        $products =Product::query()->paginate(8);
         return view('product.index',compact('products'));
     }
 
@@ -34,7 +34,14 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         //
-        dd($request->validated());
+        $formFields = $request->validated();
+        if($request->hasFile('image')){
+               $formFields['image'] = $request->file('image')->store('product','public');
+        }
+
+        Product::create($formFields);
+        return redirect('/products')->with('success', 'product has been deleted successfully');
+
     }
 
     /**
@@ -67,5 +74,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+        $product->delete();
+        return redirect('/products')->with('success', 'product has been deleted successfully');
     }
 }

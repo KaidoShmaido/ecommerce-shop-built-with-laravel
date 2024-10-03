@@ -3,8 +3,11 @@
 
 @section('content')
 
-<div class="container">
-    <h1>Product List</h1>
+<div class="container my-2">
+   <div class="d-flex justify-content-between align-items-center">
+        <h1>Product List</h1>
+        <a class="btn btn-primary" href="{{route('products.create')}}"> add a product</a>
+   </div>
     <table class="table">
         <thead>
           <tr>
@@ -26,12 +29,17 @@
             <td>{{$product->name}}</td>
             <td>{{$product->description}}</td>
             <td>{{$product->quantity}}</td>
-            <td>{{$product->image}}</td>
+            <td><img src="storage/{{$product->image}}" width="60px" height="70px" alt=""></td>
             <td>{{$product->price}}MAD</td>
             <td>
-                <a href="" class="btn btn-primary">add</a>
-                <a href="" class="btn btn-danger">delete</a>
-
+                <div class="btn-group">
+                    <button class="btn btn-primary">Edit</button>
+                    <form method="post" action="{{route('products.destroy',$product)}}" >
+                        @csrf
+                        @method('DELETE')
+                        <input class="btn btn-danger" type="submit" value="Delete">
+                    </form>
+                </div>
             </td>
           </tr>
 
@@ -42,5 +50,5 @@
           @endforelse
         </tbody>
       </table>
-
+        {{$products->links()}}
 </div>
