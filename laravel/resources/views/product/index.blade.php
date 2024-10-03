@@ -3,6 +3,7 @@
 
 @section('content')
 
+
 <div class="container my-2">
    <div class="d-flex justify-content-between align-items-center">
         <h1>Product List</h1>
@@ -21,7 +22,7 @@
           </tr>
         </thead>
         <tbody>
-            @forelse ($products as $product)
+        @forelse ($products as $product)
 
 
           <tr>
@@ -33,7 +34,7 @@
             <td>{{$product->price}}MAD</td>
             <td>
                 <div class="btn-group">
-                    <button class="btn btn-primary">Edit</button>
+                    <a class="btn btn-primary" href="{{ route('products.edit',$product) }}">Edit</a>
                     <form method="post" action="{{route('products.destroy',$product)}}" >
                         @csrf
                         @method('DELETE')
@@ -43,12 +44,17 @@
             </td>
           </tr>
 
-        @empty
+         @empty
             <tr>
                 <td colspan="7" align="center"><h6>No products.</h6></td>
-            </tr>
-          @endforelse
+              </tr>
+    @endforelse
         </tbody>
       </table>
         {{$products->links()}}
+
+        @if(session('success'))
+            <div class="alert alert-success">{{session('success') }}</div>
+       @endif
+
 </div>

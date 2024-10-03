@@ -40,7 +40,7 @@ class ProductController extends Controller
         }
 
         Product::create($formFields);
-        return redirect('/products')->with('success', 'product has been deleted successfully');
+        return redirect('/products')->with('success', 'product has been added successfully!');
 
     }
 
@@ -58,14 +58,20 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         //
+        return view('product.edit',compact('product'));
+
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
         //
+           $product->fill($request->validated())->save();
+           return redirect('/products')->with('success','product has been updated successfully!');
+
     }
 
     /**
@@ -75,6 +81,6 @@ class ProductController extends Controller
     {
         //
         $product->delete();
-        return redirect('/products')->with('success', 'product has been deleted successfully');
+        return redirect('/products')->with('success', 'product has been deleted successfully!');
     }
 }
